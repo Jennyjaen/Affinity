@@ -16,6 +16,7 @@ export default function App() {
     { image: "dog_1.gif", text: "This is image 3" },
   ];
 
+
   const handleNextClick = () => {
     if (selectedOption) {
       const newResponses = [
@@ -25,20 +26,34 @@ export default function App() {
       setResponses(newResponses);
       setSelectedOption("");
       
-      if (currentIndex + 1 < imageData.length) {
+      if (currentIndex + 1 < imageData.length - 1) {
         setCurrentIndex((prevIndex) => prevIndex + 1);
       } else {
         setIsCompleted(true);
+        setCurrentIndex((prevIndex) => prevIndex + 1);
       }
     }
   };
 
   const handleEndClick = () => {
-    const worksheet = XLSX.utils.json_to_sheet(responses);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Responses");
-    XLSX.writeFile(workbook, "responses.xlsx");
+    if (selectedOption) {
+      const finalResponses = [
+        ...responses,
+        { index: currentIndex + 1, text: imageData[currentIndex].text, choice: selectedOption },
+      ];
+      setResponses(finalResponses);
+  
+      // 상태 업데이트 후 엑셀 파일 다운로드 실행
+      setTimeout(() => {
+        const worksheet = XLSX.utils.json_to_sheet(finalResponses);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Responses");
+        XLSX.writeFile(workbook, "responses.xlsx");
+      }, 100); // 상태 업데이트가 반영될 시간을 확보
+    }
   };
+  
+
 
   const radioOptions = [
     { name: "Plunge", description: "가속 운동으로 인해 쏠리는 느낌.\n Ex) 플레이어가 드리프트를 해서 느끼는 원심력", images: ["plunge_1.gif"], align: "left" },
