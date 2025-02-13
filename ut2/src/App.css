@@ -1,0 +1,161 @@
+/* ✅ 전체 컨테이너 중앙 정렬 */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  padding: 10px;
+  text-align: center;
+}
+
+/* ✅ 이미지와 텍스트 중앙 정렬 */
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.image {
+  max-width: 600px;
+  max-height: 360px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  object-fit: contain;
+}
+
+.text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 20px; /* 이미지와 텍스트 간격 */
+}
+
+/* ✅ 라디오 버튼 가로 정렬 */
+.radio-container-inline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+  flex-wrap: nowrap;
+}
+
+/* ✅ 라디오 버튼 스타일 */
+.radio-label {
+  display: flex;
+  align-items: center;
+  background-color: #34d399;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  justify-content: center;
+  width: 130px;
+}
+
+.radio-label:hover {
+  background-color: #059669;
+}
+
+.radio-input {
+  margin-right: 8px;
+  transform: scale(1.2);
+}
+
+.radio-text {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+
+.hover-description-container {
+  display: flex;
+  justify-content: center;
+  min-height: 200px;
+  max-height: 200px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+/* hover-description이 기본적으로 보이되, hover 시 내용만 변경 */
+.hover-description {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #e9f5e9;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  gap: 20px;
+  max-width: 800px;
+  width: 100%;  /* 가로 크기 유지 */
+  min-height: 180px;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* hover-text 기본 설정 */
+.hover-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  max-width: 400px;
+  text-align: left;
+}
+
+/* 호버 이미지 스타일 */
+.hover-images {
+  display: flex;
+  gap: 10px;
+}
+
+.hover-image {
+  max-width: 180px;
+  max-height: 150px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* 좌측 정렬 */
+.align-left {
+  margin-left: 0; /* 좌측 라디오 버튼과 동일한 위치 */
+  margin-right: auto;
+}
+
+/* 우측 정렬 */
+.align-right {
+  margin-left: auto; /* 우측 라디오 버튼과 동일한 위치 */
+  margin-right: 0;
+}
+
+
+/* Next 버튼을 오른쪽으로 이동 */
+.button-container.right-align {
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  margin-top: 20px; /* hover-description과의 간격 */
+  width: 100%;
+}
+
+/* Next 버튼 스타일 */
+.next-button {
+  background-color: #4f46e5;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-right: 0px;
+}
+
+.next-button:hover {
+  background-color: #3730a3;
+}
