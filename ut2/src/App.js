@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import * as XLSX from "xlsx";
 
@@ -9,50 +9,65 @@ export default function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [responses, setResponses] = useState([]);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [shuffledImages, setShuffledImages] = useState([]);
 
   const imageData = [
     { image: "dog_1.gif", text: "This is image 1" },
     { image: "dog_2.gif", text: "This is image 2" },
     { image: "dog_1.gif", text: "This is image 3" },
+    { image: "dog_1.gif", text: "This is image 4" },
+    { image: "dog_1.gif", text: "This is image 5" },
   ];
+// 이미지 데이터를 랜덤으로 섞되 원래 index 값을 자동 생성하여 포함
+useEffect(() => {
+  const shuffled = imageData
+    .map((item, index) => ({ ...item, o_idx: index + 1 })) // 원래 index 자동 생성
+    .sort(() => Math.random() - 0.5);
+  setShuffledImages(shuffled);
+}, []);
 
+const handleNextClick = () => {
+  if (selectedOption) {
+    const newResponses = [
+      ...responses,
+      {
+        idx: shuffledImages[currentIndex].o_idx, // 원래 imageData의 index
+        text: shuffledImages[currentIndex].text,
+        choice: selectedOption,
+      },
+    ];
+    setResponses(newResponses);
+    setSelectedOption("");
 
-  const handleNextClick = () => {
-    if (selectedOption) {
-      const newResponses = [
-        ...responses,
-        { index: currentIndex + 1, text: imageData[currentIndex].text, choice: selectedOption },
-      ];
-      setResponses(newResponses);
-      setSelectedOption("");
-      
-      if (currentIndex + 1 < imageData.length - 1) {
-        setCurrentIndex((prevIndex) => prevIndex + 1);
-      } else {
-        setIsCompleted(true);
-        setCurrentIndex((prevIndex) => prevIndex + 1);
-      }
+    if (currentIndex + 1 < shuffledImages.length - 1) {
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+    } else {
+      setIsCompleted(true);
+      setCurrentIndex((prevIndex) => prevIndex + 1);
     }
-  };
+  }
+};
 
-  const handleEndClick = () => {
-    if (selectedOption) {
-      const finalResponses = [
-        ...responses,
-        { index: currentIndex + 1, text: imageData[currentIndex].text, choice: selectedOption },
-      ];
-      setResponses(finalResponses);
-  
-      // 상태 업데이트 후 엑셀 파일 다운로드 실행
-      setTimeout(() => {
-        const worksheet = XLSX.utils.json_to_sheet(finalResponses);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Responses");
-        XLSX.writeFile(workbook, "responses.xlsx");
-      }, 100); // 상태 업데이트가 반영될 시간을 확보
-    }
-  };
-  
+const handleEndClick = () => {
+  if (selectedOption) {
+    const finalResponses = [
+      ...responses,
+      {
+        idx: shuffledImages[currentIndex].o_idx, // 원래 imageData의 index
+        text: shuffledImages[currentIndex].text,
+        choice: selectedOption,
+      },
+    ];
+    setResponses(finalResponses);
+
+    setTimeout(() => {
+      const worksheet = XLSX.utils.json_to_sheet(finalResponses);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Responses");
+      XLSX.writeFile(workbook, "responses.xlsx");
+    }, 100);
+  }
+};
 
 
   const radioOptions = [
@@ -72,13 +87,12 @@ export default function App() {
     <div className="app-container content-shift">
       <div className="image-container">
         <img 
-          src={`/images/${imageData[currentIndex].image}`} 
+          src={`/images/${shuffledImages[currentIndex]?.image}`} 
           alt="Displayed" 
           className="image" 
         />
-        <p className="text text-spacing">{imageData[currentIndex].text}</p>
+        <p className="text text-spacing">{shuffledImages[currentIndex]?.text}</p>
       </div>
-
       <div className="radio-container-inline">
         {radioOptions.map((option, index) => (
           <label 
